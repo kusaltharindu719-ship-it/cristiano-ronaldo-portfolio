@@ -1,0 +1,4932 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CR7 — Digital Experience</title>
+
+<style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root{
+
+    --black:#020202;
+    --black-soft:#070707;
+
+    --white:#f5f5f2;
+
+    --silver:#9b9b9b;
+    --silver-light:#d8dadd;
+    --silver-dark:#62676d;
+
+    --cool:#84909c;
+    --cool-soft:#aeb6be;
+
+    --red:#c51532;
+    --green:#046a38;
+    --flag-red:#da291c;
+
+    --line:rgba(255,255,255,.085);
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    background:#020202;
+    color:var(--white);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    overflow-x:hidden;
+
+    cursor:none;
+
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+    cursor:none;
+}
+
+
+/* subtle grain */
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+    inset:0;
+
+    z-index:9990;
+
+    pointer-events:none;
+
+    opacity:.016;
+
+    background-image:
+        radial-gradient(
+            rgba(255,255,255,.8) .45px,
+            transparent .45px
+        );
+
+    background-size:4px 4px;
+
+}
+
+
+/* =========================================================
+   CUSTOM CURSOR
+========================================================= */
+
+.cursor-dot{
+
+    position:fixed;
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    z-index:10001;
+
+    pointer-events:none;
+
+    transform:
+        translate(-50%,-50%);
+
+}
+
+.cursor-ring{
+
+    position:fixed;
+
+    width:35px;
+    height:35px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.42);
+
+    border-radius:50%;
+
+    z-index:10000;
+
+    pointer-events:none;
+
+    transform:
+        translate(-50%,-50%);
+
+    transition:
+        width .22s ease,
+        height .22s ease,
+        background .22s ease,
+        border-color .22s ease;
+
+}
+
+.cursor-ring.active{
+
+    width:64px;
+    height:64px;
+
+    border-color:
+        rgba(220,224,228,.68);
+
+    background:
+        rgba(255,255,255,.035);
+
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.loader{
+
+    position:fixed;
+    inset:0;
+
+    z-index:9000;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#000;
+
+    transition:
+        opacity .8s ease,
+        visibility .8s ease;
+
+}
+
+.loader.hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+.loader-inner{
+    text-align:center;
+}
+
+.loader-number{
+
+    font-size:
+        clamp(110px,18vw,240px);
+
+    line-height:.78;
+
+    font-weight:900;
+
+    letter-spacing:-12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #686868
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:
+        loaderIn 1s both;
+
+}
+
+.loader-line{
+
+    width:0;
+    height:1px;
+
+    margin:
+        32px auto 18px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #fff,
+            transparent
+        );
+
+    animation:
+        loaderLine 1s .25s forwards;
+
+}
+
+.loader-text{
+
+    color:#666;
+
+    font-size:8px;
+
+    letter-spacing:7px;
+
+}
+
+@keyframes loaderIn{
+
+    from{
+        opacity:0;
+        transform:scale(.8);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+@keyframes loaderLine{
+    to{
+        width:220px;
+    }
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+nav{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:80px;
+
+    padding:
+        0 4vw;
+
+    display:grid;
+
+    grid-template-columns:
+        180px
+        1fr
+        300px;
+
+    align-items:center;
+
+    z-index:800;
+
+    transition:.35s ease;
+
+}
+
+nav.scrolled{
+
+    height:64px;
+
+    background:
+        rgba(2,2,2,.86);
+
+    backdrop-filter:
+        blur(20px);
+
+    border-bottom:
+        1px solid var(--line);
+
+}
+
+.logo{
+
+    font-size:23px;
+
+    font-weight:900;
+
+}
+
+.logo span{
+    color:#777;
+}
+
+.nav-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:42px;
+
+}
+
+.nav-links a{
+
+    position:relative;
+
+    color:#707070;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+    transition:.3s ease;
+
+}
+
+.nav-links a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-7px;
+
+    width:0;
+    height:1px;
+
+    background:#fff;
+
+    transition:
+        width .3s ease;
+
+}
+
+.nav-links a:hover{
+    color:#fff;
+}
+
+.nav-links a:hover::after{
+    width:100%;
+}
+
+.nav-note{
+
+    text-align:right;
+
+    color:#484848;
+
+    font-size:7px;
+
+    letter-spacing:2.5px;
+
+}
+
+
+/* =========================================================
+   MAIN HERO / TRANSITION WRAP
+========================================================= */
+
+.hero-wrap{
+
+    position:relative;
+
+    height:240vh;
+
+}
+
+.hero-stage{
+
+    position:sticky;
+
+    top:0;
+
+    width:100%;
+    height:100vh;
+
+    overflow:hidden;
+
+    background:
+
+        radial-gradient(
+            circle at 56% 44%,
+            rgba(255,255,255,.05),
+            transparent 27%
+        ),
+
+        linear-gradient(
+            135deg,
+            #020202,
+            #060606
+        );
+
+}
+
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
+
+.hero-grid{
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:
+
+        linear-gradient(
+            rgba(255,255,255,.023) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.023) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        8.33vw
+        95px;
+
+}
+
+
+/* =========================================================
+   FIRST HERO BACKGROUND
+========================================================= */
+
+.big-seven{
+
+    position:absolute;
+
+    left:49%;
+    top:52%;
+
+    transform:
+        translate(-50%,-50%);
+
+    font-size:
+        min(58vw,900px);
+
+    line-height:.8;
+
+    font-weight:900;
+
+    color:
+        rgba(255,255,255,.012);
+
+    pointer-events:none;
+
+}
+
+.orbit{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:
+        min(48vw,750px);
+
+    aspect-ratio:1;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.04);
+
+    pointer-events:none;
+
+}
+
+.orbit::before,
+.orbit::after{
+
+    content:"";
+
+    position:absolute;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.022);
+
+}
+
+.orbit::before{
+    inset:12%;
+}
+
+.orbit::after{
+    inset:25%;
+}
+
+
+/* =========================================================
+   HOME COPY
+========================================================= */
+
+.hero-copy{
+
+    position:absolute;
+
+    left:4.3vw;
+    top:46%;
+
+    width:38vw;
+
+    transform:
+        translateY(-50%);
+
+    z-index:30;
+
+}
+
+.eyebrow{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    width:max-content;
+
+    margin-bottom:22px;
+
+    color:#929292;
+
+    font-size:8px;
+
+    letter-spacing:5px;
+
+}
+
+.eyebrow::before{
+
+    content:"";
+
+    width:43px;
+    height:1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--red),
+            rgba(255,255,255,.58)
+        );
+
+}
+
+.hero-title{
+
+    width:max-content;
+
+    max-width:100%;
+
+}
+
+.title-first{
+
+    display:block;
+
+    color:#f4f4f2;
+
+    font-size:
+        clamp(59px,5.75vw,106px);
+
+    line-height:.79;
+
+    font-weight:900;
+
+    letter-spacing:-5px;
+
+}
+
+.title-last-row{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    margin-top:6px;
+
+}
+
+.title-last{
+
+    position:relative;
+
+    display:block;
+
+    overflow:hidden;
+
+    color:#858585;
+
+    font-size:
+        clamp(55px,5.25vw,98px);
+
+    line-height:.82;
+
+    font-weight:300;
+
+    letter-spacing:-5px;
+
+}
+
+
+/* Portugal sweep stays on home name */
+
+.title-last::after{
+
+    content:
+        attr(data-text);
+
+    position:absolute;
+
+    inset:0;
+
+    color:transparent;
+
+    background:
+
+        linear-gradient(
+            100deg,
+
+            transparent 8%,
+
+            #046a38 31%,
+
+            #0b854e 40%,
+
+            #f4f4f1 50%,
+
+            #da291c 61%,
+
+            #aa1c31 70%,
+
+            transparent 92%
+        );
+
+    background-size:
+        240% 100%;
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    animation:
+        nameSweep
+        4.2s
+        ease-in-out
+        infinite;
+
+}
+
+@keyframes nameSweep{
+
+    0%{
+        background-position:160% 0;
+        opacity:0;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    48%{
+        background-position:-60% 0;
+        opacity:1;
+    }
+
+    60%{
+        opacity:0;
+    }
+
+    100%{
+        background-position:-60% 0;
+        opacity:0;
+    }
+
+}
+
+.title-number{
+
+    margin-left:22px;
+    margin-bottom:8px;
+
+    color:var(--red);
+
+    font-size:9px;
+
+    font-weight:700;
+
+    letter-spacing:3px;
+
+}
+
+
+/* =========================================================
+   HOME INFO
+========================================================= */
+
+.identity-line{
+
+    margin-top:24px;
+
+    color:#777;
+
+    font-size:7px;
+
+    letter-spacing:3px;
+
+}
+
+.hero-statement{
+
+    position:relative;
+
+    margin-top:25px;
+
+    padding-left:18px;
+
+    border-left:
+        1px solid
+        rgba(255,255,255,.17);
+
+}
+
+.statement-one,
+.statement-two{
+
+    font-size:9px;
+
+    line-height:1.8;
+
+    letter-spacing:3px;
+
+}
+
+.statement-one{
+    color:#999;
+}
+
+.statement-two{
+    color:#d2d2d2;
+}
+
+
+/* =========================================================
+   HOME DATA
+========================================================= */
+
+.data-rail{
+
+    width:86%;
+
+    margin-top:24px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    border-top:
+        1px solid var(--line);
+
+    border-bottom:
+        1px solid var(--line);
+
+}
+
+.data-item{
+
+    min-height:64px;
+
+    padding:
+        14px 20px 13px 0;
+
+    border-right:
+        1px solid var(--line);
+
+    transition:.3s ease;
+
+}
+
+.data-item:nth-child(2),
+.data-item:nth-child(3){
+    padding-left:21px;
+}
+
+.data-item:last-child{
+    border:none;
+}
+
+.data-item:hover{
+    background:
+        rgba(255,255,255,.018);
+}
+
+.data-item small{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    color:#666;
+
+    font-size:6px;
+
+    letter-spacing:2.4px;
+
+}
+
+.data-item strong{
+
+    color:#ededeb;
+
+    font-size:10px;
+
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.hero-actions{
+
+    margin-top:27px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:25px;
+
+}
+
+.cta{
+
+    position:relative;
+
+    min-height:53px;
+
+    padding:
+        0 27px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:24px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.18);
+
+    font-size:8px;
+
+    font-weight:600;
+
+    letter-spacing:3px;
+
+}
+
+.cta::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            100deg,
+            #831127,
+            #b91531
+        );
+
+    transform:
+        translateX(-103%);
+
+    transition:.42s ease;
+
+}
+
+.cta:hover::before{
+    transform:none;
+}
+
+.cta span{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.scroll-cue{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+}
+
+.scroll-dot{
+
+    width:4px;
+    height:4px;
+
+    background:var(--red);
+
+    border-radius:50%;
+
+}
+
+.scroll-text{
+
+    color:#666;
+
+    font-size:7px;
+
+    letter-spacing:3px;
+
+}
+
+.scroll-line{
+
+    position:relative;
+
+    width:58px;
+    height:1px;
+
+    overflow:hidden;
+
+    background:
+        rgba(255,255,255,.12);
+
+}
+
+.scroll-line::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:-25px;
+    top:0;
+
+    width:25px;
+    height:1px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            #fff,
+            transparent
+        );
+
+    animation:
+        scrollBeam
+        2.2s
+        infinite;
+
+}
+
+@keyframes scrollBeam{
+
+    to{
+        left:100%;
+    }
+
+}
+
+
+/* =========================================================
+   FIRST HERO IMAGE
+========================================================= */
+
+.ghost-shell{
+
+    position:absolute;
+
+    left:47%;
+    top:47%;
+
+    width:
+        min(30vw,460px);
+
+    height:76vh;
+
+    transform:
+        translate(-50%,-50%);
+
+    z-index:12;
+
+    pointer-events:none;
+
+}
+
+.ghost-image{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    opacity:.08;
+
+    filter:
+        grayscale(1)
+        brightness(.7)
+        blur(.8px);
+
+}
+
+.main-shell{
+
+    position:absolute;
+
+    left:58%;
+    top:55%;
+
+    width:
+        min(32vw,470px);
+
+    height:82vh;
+
+    transform:
+        translate(-50%,-50%);
+
+    z-index:46;
+
+    pointer-events:none;
+
+}
+
+.main-image{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    filter:
+        drop-shadow(
+            0 40px 55px
+            rgba(0,0,0,.95)
+        );
+
+}
+
+
+/* =========================================================
+   SKILLS
+========================================================= */
+
+.skills-wrap{
+
+    position:absolute;
+
+    right:4vw;
+    top:47%;
+
+    width:
+        min(25vw,390px);
+
+    transform:
+        translateY(-50%);
+
+    z-index:34;
+
+}
+
+.skills-wrap:has(.skill:hover){
+    z-index:70;
+}
+
+.skills-title{
+
+    position:absolute;
+
+    right:0;
+    top:-25px;
+
+    color:#555;
+
+    font-size:6px;
+
+    letter-spacing:2.6px;
+
+}
+
+.skills{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.skill{
+
+    position:relative;
+
+    min-height:70px;
+
+    padding:
+        0 17px;
+
+    display:grid;
+
+    grid-template-columns:
+        31px
+        85px
+        1fr
+        35px;
+
+    gap:12px;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    background:
+
+        linear-gradient(
+            110deg,
+            rgba(13,13,13,.9),
+            rgba(5,5,5,.74)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    transition:
+        transform .4s ease,
+        opacity .35s ease,
+        filter .35s ease;
+
+}
+
+.skill > *{
+
+    position:relative;
+
+    z-index:3;
+
+}
+
+.skill::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    opacity:0;
+
+    transform:
+        translateX(-105%);
+
+    background:
+
+        linear-gradient(
+            100deg,
+
+            rgba(4,106,56,.27),
+
+            rgba(255,255,255,.08),
+
+            rgba(218,41,28,.25)
+        );
+
+    transition:.6s ease;
+
+}
+
+.skill:hover{
+
+    transform:
+        translateX(-18px)
+        translateY(-2px)
+        scale(1.015);
+
+}
+
+.skill:hover::after{
+
+    opacity:1;
+
+    transform:none;
+
+}
+
+.skills:has(.skill:hover)
+.skill:not(:hover){
+
+    opacity:.6;
+
+    filter:
+        brightness(.82);
+
+}
+
+.skill-icon{
+
+    width:26px;
+    height:26px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#bbb;
+
+}
+
+.skill-icon svg{
+
+    width:17px;
+
+    stroke:currentColor;
+
+    fill:none;
+
+    stroke-width:1.6;
+
+}
+
+.skill-name{
+
+    color:#aaa;
+
+    font-size:8px;
+
+    letter-spacing:2px;
+
+}
+
+.track{
+
+    height:2px;
+
+    overflow:hidden;
+
+    background:
+        rgba(255,255,255,.12);
+
+}
+
+.track-fill{
+
+    width:0;
+    height:100%;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #737373,
+            #eee
+        );
+
+    transition:
+        width 1.3s ease,
+        background .35s ease;
+
+}
+
+.skill:hover .track-fill{
+
+    background:
+
+        linear-gradient(
+            90deg,
+            var(--green),
+            #f2f2ef,
+            var(--flag-red)
+        );
+
+}
+
+.skill-value{
+
+    text-align:right;
+
+    font-size:13px;
+
+}
+
+
+/* =========================================================
+   PROOF STRIP
+========================================================= */
+
+.proof-strip{
+
+    position:absolute;
+
+    left:4vw;
+    right:4vw;
+    bottom:18px;
+
+    min-height:63px;
+
+    z-index:60;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    border-top:
+        1px solid var(--line);
+
+    border-bottom:
+        1px solid var(--line);
+
+    background:
+        rgba(0,0,0,.52);
+
+}
+
+.proof{
+
+    padding:
+        13px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    border-right:
+        1px solid var(--line);
+
+}
+
+.proof:last-child{
+    border:none;
+}
+
+.proof-number{
+
+    font-size:24px;
+
+    font-weight:700;
+
+}
+
+.proof-text{
+
+    color:#777;
+
+    font-size:7px;
+
+    line-height:1.5;
+
+    letter-spacing:2px;
+
+}
+
+
+/* =========================================================
+   SECOND PHASE
+========================================================= */
+
+.number-phase{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:80;
+
+    opacity:0;
+
+    pointer-events:none;
+
+}
+
+
+/* light silver atmosphere */
+
+.number-phase::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            circle at 58% 43%,
+            rgba(255,255,255,.055),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 58% 49%,
+            rgba(110,120,130,.035),
+            transparent 37%
+        );
+
+    pointer-events:none;
+
+}
+
+
+/* =========================================================
+   STATIC PREMIUM 07
+========================================================= */
+
+.number-seven{
+
+    position:absolute;
+
+    left:58%;
+    top:49%;
+
+    width:max-content;
+
+    z-index:3;
+
+    padding:
+        .08em .08em .15em;
+
+    transform:
+        translate(-50%,-50%);
+
+    font-size:
+        min(40vw,660px);
+
+    line-height:.88;
+
+    font-weight:900;
+
+    letter-spacing:-23px;
+
+    white-space:nowrap;
+
+    color:transparent;
+
+    -webkit-text-stroke:
+        1px
+        rgba(210,218,226,.24);
+
+    filter:
+        drop-shadow(
+            0 0 18px
+            rgba(255,255,255,.025)
+        );
+
+    pointer-events:none;
+
+}
+
+
+/* =========================================================
+   SECOND COPY
+========================================================= */
+
+.number-copy{
+
+    position:absolute;
+
+    left:4.8vw;
+    top:50%;
+
+    width:33vw;
+
+    z-index:25;
+
+    opacity:0;
+
+    transform:
+        translateY(-50%)
+        translateX(-35px);
+
+}
+
+.number-index{
+
+    margin-bottom:22px;
+
+    color:
+        rgba(210,218,226,.56);
+
+    font-size:7px;
+
+    letter-spacing:4px;
+
+}
+
+.number-heading{
+
+    color:#f7f7f5;
+
+    font-size:
+        clamp(59px,6.2vw,110px);
+
+    line-height:.82;
+
+    letter-spacing:-6px;
+
+    font-weight:900;
+
+}
+
+.number-heading .line-silver{
+
+    display:block;
+
+    color:#969da4;
+
+    font-weight:300;
+
+}
+
+.number-heading .line-small{
+
+    display:block;
+
+    margin-top:13px;
+
+    color:
+        rgba(224,228,232,.74);
+
+    font-size:.29em;
+
+    line-height:1.2;
+
+    font-weight:500;
+
+    letter-spacing:5px;
+
+}
+
+.number-desc{
+
+    width:330px;
+
+    margin-top:28px;
+
+    padding-left:17px;
+
+    border-left:
+        1px solid
+        rgba(255,255,255,.16);
+
+    color:
+        rgba(196,202,208,.66);
+
+    font-size:8px;
+
+    line-height:1.9;
+
+    letter-spacing:2.2px;
+
+}
+
+.number-desc strong{
+
+    color:#f0f0ed;
+
+    font-weight:400;
+
+}
+
+
+/* =========================================================
+   SECOND META
+========================================================= */
+
+.number-meta{
+
+    width:330px;
+
+    margin-top:28px;
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.09);
+
+}
+
+.number-meta-item{
+
+    padding:
+        14px 0;
+
+}
+
+.number-meta-item + .number-meta-item{
+
+    padding-left:20px;
+
+    border-left:
+        1px solid
+        rgba(255,255,255,.09);
+
+}
+
+.number-meta-item small{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    color:
+        rgba(190,197,204,.45);
+
+    font-size:6px;
+
+    letter-spacing:2px;
+
+}
+
+.number-meta-item strong{
+
+    color:#f4f4f1;
+
+    font-size:9px;
+
+    letter-spacing:1px;
+
+}
+
+
+/* =========================================================
+   3D BACK IMAGE
+========================================================= */
+
+.back-shell{
+
+    --rx:0deg;
+    --ry:0deg;
+
+    position:absolute;
+
+    left:58%;
+    top:54%;
+
+    width:
+        min(37vw,565px);
+
+    height:83vh;
+
+    z-index:15;
+
+    opacity:0;
+
+    transform:
+
+        translate(-50%,-50%)
+
+        translateY(100px)
+
+        perspective(1700px)
+
+        rotateX(var(--rx))
+
+        rotateY(var(--ry))
+
+        scale(.84);
+
+    transform-style:preserve-3d;
+
+    pointer-events:auto;
+
+    will-change:
+        transform,
+        opacity;
+
+}
+
+
+/* rear shadow copy */
+
+.back-depth{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    opacity:.24;
+
+    filter:
+        brightness(.18)
+        blur(5px);
+
+    transform:
+
+        translate3d(
+            21px,
+            17px,
+            -80px
+        )
+
+        scale(.985);
+
+}
+
+
+/* extra rear depth */
+
+.back-depth-two{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    opacity:.09;
+
+    filter:
+        brightness(.24)
+        blur(2px);
+
+    transform:
+
+        translate3d(
+            -8px,
+            7px,
+            -42px
+        )
+
+        scale(.992);
+
+}
+
+
+/* very soft neutral aura */
+
+.back-depth-glow{
+
+    position:absolute;
+
+    inset:3%;
+
+    z-index:-1;
+
+    opacity:.11;
+
+    background:
+
+        radial-gradient(
+            ellipse at 50% 47%,
+            rgba(255,255,255,.18),
+            transparent 58%
+        );
+
+    filter:
+        blur(30px);
+
+    transform:
+        translateZ(-110px);
+
+}
+
+
+/* main person */
+
+.back-image{
+
+    position:relative;
+
+    z-index:5;
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    transform:
+        translateZ(60px);
+
+    filter:
+
+        drop-shadow(
+            0 40px 48px
+            rgba(0,0,0,.96)
+        )
+
+        drop-shadow(
+            0 0 16px
+            rgba(255,255,255,.035)
+        )
+
+        brightness(1.035)
+
+        contrast(1.025)
+
+        saturate(.97);
+
+    transition:
+        filter .3s ease;
+
+}
+
+
+/* clean rim */
+
+.back-rim{
+
+    position:absolute;
+
+    inset:7%;
+
+    z-index:3;
+
+    pointer-events:none;
+
+    background:
+
+        radial-gradient(
+            ellipse at 52% 31%,
+            rgba(255,255,255,.075),
+            transparent 34%
+        );
+
+    filter:
+        blur(24px);
+
+}
+
+.back-shell:hover .back-image{
+
+    filter:
+
+        drop-shadow(
+            0 42px 50px
+            rgba(0,0,0,.96)
+        )
+
+        drop-shadow(
+            0 0 18px
+            rgba(255,255,255,.045)
+        )
+
+        brightness(1.045)
+
+        contrast(1.025);
+
+}
+
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.number-side{
+
+    position:absolute;
+
+    right:4.3vw;
+    top:50%;
+
+    width:110px;
+
+    z-index:25;
+
+    opacity:0;
+
+    transform:
+        translateY(-50%)
+        translateX(25px);
+
+}
+
+.side-number{
+
+    color:#f5f5f3;
+
+    font-size:34px;
+
+    font-weight:700;
+
+}
+
+.side-line{
+
+    width:70px;
+    height:1px;
+
+    margin:
+        14px 0;
+
+    background:
+        rgba(255,255,255,.16);
+
+}
+
+.side-copy{
+
+    color:
+        rgba(205,210,214,.46);
+
+    font-size:6px;
+
+    line-height:2;
+
+    letter-spacing:2.3px;
+
+}
+
+
+/* =========================================================
+   BOTTOM PROGRESS
+========================================================= */
+
+.transition-progress{
+
+    position:absolute;
+
+    left:5vw;
+    right:5vw;
+    bottom:5vh;
+
+    height:1px;
+
+    z-index:100;
+
+    opacity:0;
+
+    background:
+        rgba(255,255,255,.055);
+
+}
+
+.transition-progress-fill{
+
+    width:0;
+    height:100%;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.16),
+            rgba(255,255,255,.6),
+            rgba(255,255,255,.18)
+        );
+
+    box-shadow:
+        0 0 8px
+        rgba(255,255,255,.06);
+
+}
+
+
+/* =========================================================
+   MINDSET
+========================================================= */
+
+.story{
+
+    min-height:95vh;
+
+    padding:
+        140px 7vw;
+
+    display:flex;
+
+    align-items:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            #030303,
+            #080808
+        );
+
+}
+
+.story-number{
+
+    position:absolute;
+
+    right:-2vw;
+    top:50%;
+
+    transform:
+        translateY(-50%);
+
+    font-size:34vw;
+
+    font-weight:900;
+
+    color:
+        rgba(255,255,255,.018);
+
+}
+
+.story-inner{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.section-label{
+
+    margin-bottom:28px;
+
+    color:#818181;
+
+    font-size:8px;
+
+    letter-spacing:5px;
+
+}
+
+.story h2{
+
+    font-size:
+        clamp(50px,7vw,115px);
+
+    line-height:.9;
+
+    letter-spacing:-5px;
+
+}
+
+.story h2 span{
+
+    color:#747474;
+
+}
+
+
+/* =========================================================
+   LEGACY
+========================================================= */
+
+.legacy{
+
+    padding:
+        145px 6vw;
+
+    background:#070707;
+
+}
+
+.legacy-heading{
+
+    display:grid;
+
+    grid-template-columns:
+        .75fr
+        2fr;
+
+    gap:6vw;
+
+    align-items:end;
+
+    padding-bottom:70px;
+
+    border-bottom:
+        1px solid var(--line);
+
+}
+
+.legacy-heading small{
+
+    color:#818181;
+
+    font-size:8px;
+
+    letter-spacing:5px;
+
+}
+
+.legacy-heading h2{
+
+    font-size:
+        clamp(62px,8vw,135px);
+
+    line-height:.78;
+
+    letter-spacing:-7px;
+
+}
+
+.legacy-heading h2 span{
+
+    display:block;
+
+    color:#6f6f6f;
+
+    font-weight:400;
+
+}
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+}
+
+.stat{
+
+    position:relative;
+
+    min-height:300px;
+
+    padding:
+        35px 28px;
+
+    border-right:
+        1px solid var(--line);
+
+    border-bottom:
+        1px solid var(--line);
+
+    overflow:hidden;
+
+}
+
+.stat:first-child{
+
+    border-left:
+        1px solid var(--line);
+
+}
+
+.stat::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:#eeeeec;
+
+    transform:
+        translateY(102%);
+
+    transition:.4s ease;
+
+}
+
+.stat:hover::before{
+    transform:none;
+}
+
+.stat:hover{
+    color:#050505;
+}
+
+.stat > *{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.stat-number{
+
+    font-size:
+        clamp(65px,7vw,110px);
+
+    font-weight:900;
+
+}
+
+.stat-label{
+
+    position:absolute;
+
+    left:28px;
+    bottom:28px;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+}
+
+
+/* =========================================================
+   CAREER
+========================================================= */
+
+.career{
+
+    padding:
+        150px 6vw;
+
+    background:#020202;
+
+}
+
+.career-head{
+
+    display:grid;
+
+    grid-template-columns:
+        1.4fr
+        .7fr;
+
+    gap:8vw;
+
+    align-items:end;
+
+    margin-bottom:80px;
+
+}
+
+.career h2{
+
+    font-size:
+        clamp(62px,8vw,130px);
+
+    line-height:.8;
+
+    letter-spacing:-7px;
+
+}
+
+.career h2 span{
+
+    color:#727272;
+
+}
+
+.career p{
+
+    color:#777;
+
+    font-size:11px;
+
+    line-height:1.9;
+
+}
+
+.timeline{
+
+    border-top:
+        1px solid var(--line);
+
+}
+
+.timeline-row{
+
+    position:relative;
+
+    min-height:115px;
+
+    display:grid;
+
+    grid-template-columns:
+        80px
+        1fr
+        160px;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    border-bottom:
+        1px solid var(--line);
+
+}
+
+.timeline-row::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:#eeeeec;
+
+    transform:
+        translateX(-101%);
+
+    transition:.4s ease;
+
+}
+
+.timeline-row:hover::before{
+    transform:none;
+}
+
+.timeline-row:hover{
+    color:#050505;
+}
+
+.timeline-row > *{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.timeline-id{
+
+    color:#666;
+
+    font-size:8px;
+
+}
+
+.timeline-name{
+
+    font-size:
+        clamp(26px,3vw,50px);
+
+    font-weight:600;
+
+}
+
+.timeline-note{
+
+    color:#777;
+
+    text-align:right;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+}
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal{
+
+    opacity:0;
+
+    transform:
+        translateY(40px);
+
+    transition:
+        opacity .9s ease,
+        transform .9s ease;
+
+}
+
+.reveal.show{
+
+    opacity:1;
+
+    transform:none;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    min-height:260px;
+
+    padding:
+        65px 6vw;
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-between;
+
+    background:#010101;
+
+    border-top:
+        1px solid var(--line);
+
+}
+
+.footer-logo{
+
+    font-size:
+        clamp(70px,9vw,140px);
+
+    font-weight:900;
+
+}
+
+.footer-logo span{
+    color:#777;
+}
+
+.footer-copy{
+
+    max-width:350px;
+
+    color:#606060;
+
+    text-align:right;
+
+    font-size:8px;
+
+    line-height:1.9;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+    body,
+    a{
+        cursor:auto;
+    }
+
+    .cursor-dot,
+    .cursor-ring{
+        display:none;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    nav{
+        grid-template-columns:
+            1fr auto;
+    }
+
+    .hero-copy{
+        width:45vw;
+    }
+
+    .main-shell{
+        width:40vw;
+    }
+
+    .skills-wrap{
+        width:29vw;
+        right:2vw;
+    }
+
+    .back-shell{
+        width:46vw;
+    }
+
+    .number-copy{
+        width:36vw;
+    }
+
+    .number-side{
+        display:none;
+    }
+
+    .stats-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+
+@media(max-width:700px){
+
+    nav{
+        padding:
+            0 20px;
+    }
+
+    .nav-note{
+        display:none;
+    }
+
+    .hero-wrap{
+        height:220vh;
+    }
+
+    .hero-copy{
+
+        left:22px;
+        top:14%;
+
+        width:
+            calc(100% - 44px);
+
+        transform:none;
+
+    }
+
+    .title-first{
+        font-size:15vw;
+    }
+
+    .title-last{
+        font-size:13.8vw;
+    }
+
+    .title-number{
+        display:none;
+    }
+
+    .hero-statement,
+    .scroll-cue{
+        display:none;
+    }
+
+    .data-rail{
+        width:100%;
+    }
+
+    .main-shell{
+
+        left:58%;
+        top:52%;
+
+        width:73vw;
+        height:50vh;
+
+    }
+
+    .ghost-shell{
+        display:none;
+    }
+
+    .skills-wrap{
+
+        left:20px;
+        right:20px;
+
+        top:auto;
+        bottom:90px;
+
+        width:auto;
+
+        transform:none;
+
+    }
+
+    .skills{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap:5px;
+
+    }
+
+    .skill{
+
+        display:block;
+
+        min-height:72px;
+
+        padding:10px;
+
+    }
+
+    .skill:nth-child(4),
+    .skill:nth-child(5){
+        display:none;
+    }
+
+    .track{
+        margin:8px 0;
+    }
+
+    .proof-strip{
+
+        left:20px;
+        right:20px;
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .proof:nth-child(3),
+    .proof:nth-child(4){
+        display:none;
+    }
+
+
+    /* SECOND PHASE */
+
+    .number-copy{
+
+        left:22px;
+        top:14%;
+
+        width:
+            calc(100% - 44px);
+
+        transform:
+            translateX(-25px);
+
+    }
+
+    .number-heading{
+        font-size:13vw;
+    }
+
+    .number-desc,
+    .number-meta{
+        display:none;
+    }
+
+    .number-seven{
+
+        left:50%;
+        top:54%;
+
+        font-size:70vw;
+
+        letter-spacing:-12px;
+
+    }
+
+    .back-shell{
+
+        left:50%;
+        top:60%;
+
+        width:84vw;
+        height:66vh;
+
+    }
+
+    .number-side{
+        display:none;
+    }
+
+    .legacy-heading,
+    .career-head{
+
+        grid-template-columns:1fr;
+
+        gap:30px;
+
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .timeline-row{
+
+        grid-template-columns:
+            40px
+            1fr;
+
+    }
+
+    .timeline-note{
+        display:none;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- CURSOR -->
+
+<div
+    class="cursor-dot"
+    id="cursorDot"
+></div>
+
+<div
+    class="cursor-ring"
+    id="cursorRing"
+></div>
+
+
+<!-- =========================================================
+     LOADER
+========================================================= -->
+
+<div
+    class="loader"
+    id="loader"
+>
+
+    <div class="loader-inner">
+
+        <div class="loader-number">
+            07
+        </div>
+
+        <div class="loader-line"></div>
+
+        <div class="loader-text">
+            CRISTIANO RONALDO
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     NAV
+========================================================= -->
+
+<nav id="nav">
+
+    <div class="logo">
+        CR<span>7</span>.
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="#home">
+            HOME
+        </a>
+
+        <a href="#mindset">
+            MINDSET
+        </a>
+
+        <a href="#legacy">
+            LEGACY
+        </a>
+
+        <a href="#career">
+            CAREER
+        </a>
+
+    </div>
+
+
+    <div class="nav-note">
+
+        UNOFFICIAL DIGITAL EXPERIENCE
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     HOME + TRANSITION
+========================================================= -->
+
+<section
+    class="hero-wrap"
+    id="home"
+>
+
+<div
+    class="hero-stage"
+    id="heroStage"
+>
+
+
+    <div class="hero-grid"></div>
+
+
+    <div
+        class="big-seven"
+        id="bigSeven"
+    >
+        7
+    </div>
+
+
+    <div
+        class="orbit"
+        id="orbit"
+    ></div>
+
+
+    <!-- =====================================================
+         HOME COPY
+    ====================================================== -->
+
+    <div
+        class="hero-copy"
+        id="heroCopy"
+    >
+
+        <div class="eyebrow interactive">
+
+            01 / THE ART OF GREATNESS
+
+        </div>
+
+
+        <div class="hero-title interactive">
+
+
+            <span class="title-first">
+
+                CRISTIANO
+
+            </span>
+
+
+            <div class="title-last-row">
+
+
+                <span
+                    class="title-last"
+                    data-text="RONALDO"
+                >
+
+                    RONALDO
+
+                </span>
+
+
+                <span class="title-number">
+
+                    07
+
+                </span>
+
+
+            </div>
+
+
+        </div>
+
+
+        <div class="identity-line">
+
+            PORTUGAL / FORWARD / ICON
+
+        </div>
+
+
+        <div class="hero-statement">
+
+
+            <div class="statement-one">
+
+                MORE THAN A FOOTBALLER.
+
+            </div>
+
+
+            <div class="statement-two">
+
+                A MINDSET. A GLOBAL ICON.
+
+            </div>
+
+
+        </div>
+
+
+        <div class="data-rail">
+
+
+            <div class="data-item interactive">
+
+                <small>
+                    COUNTRY
+                </small>
+
+                <strong>
+                    PORTUGAL
+                </strong>
+
+            </div>
+
+
+            <div class="data-item interactive">
+
+                <small>
+                    POSITION
+                </small>
+
+                <strong>
+                    FORWARD
+                </strong>
+
+            </div>
+
+
+            <div class="data-item interactive">
+
+                <small>
+                    NUMBER
+                </small>
+
+                <strong>
+                    07
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="hero-actions">
+
+
+            <a
+                href="#mindset"
+                class="cta interactive"
+            >
+
+                <span>
+
+                    EXPLORE THE LEGACY
+
+                </span>
+
+                <span>
+                    →
+                </span>
+
+            </a>
+
+
+            <div class="scroll-cue">
+
+                <span class="scroll-dot"></span>
+
+                <span class="scroll-text">
+
+                    SCROLL
+
+                </span>
+
+                <span class="scroll-line"></span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         OLD IMAGE
+    ====================================================== -->
+
+    <div
+        class="ghost-shell"
+        id="ghostShell"
+    >
+
+        <img
+            src="images/ronaldo-trophy.png"
+            class="ghost-image"
+            alt=""
+        >
+
+    </div>
+
+
+    <div
+        class="main-shell"
+        id="mainShell"
+    >
+
+        <img
+            src="images/ronaldo-trophy.png"
+            class="main-image"
+            id="mainImage"
+            alt="Cristiano Ronaldo"
+        >
+
+    </div>
+
+
+    <!-- =====================================================
+         SKILLS
+    ====================================================== -->
+
+    <div
+        class="skills-wrap"
+        id="skillsWrap"
+    >
+
+        <div class="skills-title">
+
+            PERFORMANCE PROFILE
+
+        </div>
+
+
+        <div class="skills">
+
+
+            <!-- FINISHING -->
+
+            <div class="skill interactive">
+
+                <div class="skill-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <circle
+                            cx="12"
+                            cy="12"
+                            r="8"
+                        />
+
+                        <circle
+                            cx="12"
+                            cy="12"
+                            r="3"
+                        />
+
+                    </svg>
+
+                </div>
+
+
+                <div class="skill-name">
+
+                    FINISHING
+
+                </div>
+
+
+                <div class="track">
+
+                    <div
+                        class="track-fill"
+                        data-width="97%"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    class="skill-value count"
+                    data-target="97"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <!-- POWER -->
+
+            <div class="skill interactive">
+
+                <div class="skill-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path
+                            d="M13 2L5 14h6l-1 8 9-13h-6z"
+                        />
+
+                    </svg>
+
+                </div>
+
+
+                <div class="skill-name">
+
+                    POWER
+
+                </div>
+
+
+                <div class="track">
+
+                    <div
+                        class="track-fill"
+                        data-width="95%"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    class="skill-value count"
+                    data-target="95"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <!-- HEADING -->
+
+            <div class="skill interactive">
+
+                <div class="skill-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <circle
+                            cx="12"
+                            cy="9"
+                            r="5"
+                        />
+
+                        <path
+                            d="M8 14v5h8v-5"
+                        />
+
+                    </svg>
+
+                </div>
+
+
+                <div class="skill-name">
+
+                    HEADING
+
+                </div>
+
+
+                <div class="track">
+
+                    <div
+                        class="track-fill"
+                        data-width="98%"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    class="skill-value count"
+                    data-target="98"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <!-- PACE -->
+
+            <div class="skill interactive">
+
+                <div class="skill-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path
+                            d="M4 14l5-5 3 3 7-7"
+                        />
+
+                    </svg>
+
+                </div>
+
+
+                <div class="skill-name">
+
+                    PACE
+
+                </div>
+
+
+                <div class="track">
+
+                    <div
+                        class="track-fill"
+                        data-width="92%"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    class="skill-value count"
+                    data-target="92"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <!-- MENTALITY -->
+
+            <div class="skill interactive">
+
+                <div class="skill-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path
+                            d="M9 4a4 4 0 018 0v2a4 4 0 010 8v2a4 4 0 01-8 0v-1"
+                        />
+
+                    </svg>
+
+                </div>
+
+
+                <div class="skill-name">
+
+                    MENTALITY
+
+                </div>
+
+
+                <div class="track">
+
+                    <div
+                        class="track-fill"
+                        data-width="99%"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    class="skill-value count"
+                    data-target="99"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         PROOF STRIP
+    ====================================================== -->
+
+    <div
+        class="proof-strip"
+        id="proofStrip"
+    >
+
+
+        <div class="proof">
+
+            <div class="proof-number">
+                5
+            </div>
+
+            <div class="proof-text">
+
+                BALLON D'OR
+                <br>
+                AWARDS
+
+            </div>
+
+        </div>
+
+
+        <div class="proof">
+
+            <div class="proof-number">
+                5
+            </div>
+
+            <div class="proof-text">
+
+                UEFA CHAMPIONS
+                <br>
+                LEAGUE TITLES
+
+            </div>
+
+        </div>
+
+
+        <div class="proof">
+
+            <div class="proof-number">
+                1
+            </div>
+
+            <div class="proof-text">
+
+                EUROPEAN
+                <br>
+                CHAMPION
+
+            </div>
+
+        </div>
+
+
+        <div class="proof">
+
+            <div class="proof-number">
+                07
+            </div>
+
+            <div class="proof-text">
+
+                ICONIC
+                <br>
+                NUMBER
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         SECOND PHASE
+    ====================================================== -->
+
+    <div
+        class="number-phase"
+        id="numberPhase"
+    >
+
+
+        <!-- STATIC 07 -->
+
+        <div
+            class="number-seven"
+            id="numberSeven"
+        >
+            07
+        </div>
+
+
+        <!-- LEFT COPY -->
+
+        <div
+            class="number-copy"
+            id="numberCopy"
+        >
+
+
+            <div class="number-index">
+
+                02 / THE SIGNATURE
+
+            </div>
+
+
+            <h2 class="number-heading">
+
+                SEVEN.
+
+                <span class="line-silver">
+
+                    BUILT INTO
+                    <br>
+                    THE NAME.
+
+                </span>
+
+
+                <span class="line-small">
+
+                    CRISTIANO RONALDO / 07
+
+                </span>
+
+            </h2>
+
+
+            <div class="number-desc">
+
+                NOT JUST A NUMBER.
+                A SIGNATURE CARRIED
+                THROUGH EVERY CHAPTER.
+
+                <br><br>
+
+                <strong>
+
+                    DISCIPLINE.
+                    IDENTITY.
+                    LEGACY.
+
+                </strong>
+
+            </div>
+
+
+            <div class="number-meta">
+
+
+                <div class="number-meta-item">
+
+                    <small>
+                        NAME
+                    </small>
+
+                    <strong>
+                        CRISTIANO RONALDO
+                    </strong>
+
+                </div>
+
+
+                <div class="number-meta-item">
+
+                    <small>
+                        SIGNATURE
+                    </small>
+
+                    <strong>
+                        CR7
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             BACK IMAGE
+        ================================================== -->
+
+        <div
+            class="back-shell interactive"
+            id="backShell"
+        >
+
+
+            <div class="back-depth-glow"></div>
+
+
+            <img
+                src="images/ronaldo-back-clean.png"
+                class="back-depth"
+                alt=""
+            >
+
+
+            <img
+                src="images/ronaldo-back-clean.png"
+                class="back-depth-two"
+                alt=""
+            >
+
+
+            <div class="back-rim"></div>
+
+
+            <img
+                src="images/ronaldo-back-clean.png"
+                class="back-image"
+                alt="Cristiano Ronaldo number seven"
+            >
+
+
+        </div>
+
+
+        <!-- RIGHT DETAIL -->
+
+        <div
+            class="number-side"
+            id="numberSide"
+        >
+
+
+            <div class="side-number">
+
+                07
+
+            </div>
+
+
+            <div class="side-line"></div>
+
+
+            <div class="side-copy">
+
+                PORTUGAL
+
+                <br>
+
+                FORWARD
+
+                <br>
+
+                ICON
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         BOTTOM PROGRESS
+    ====================================================== -->
+
+    <div
+        class="transition-progress"
+        id="transitionProgress"
+    >
+
+        <div
+            class="transition-progress-fill"
+            id="transitionProgressFill"
+        ></div>
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     MINDSET
+========================================================= -->
+
+<section
+    class="story"
+    id="mindset"
+>
+
+    <div class="story-number">
+
+        07
+
+    </div>
+
+
+    <div class="story-inner reveal">
+
+
+        <div class="section-label">
+
+            03 / THE MINDSET
+
+        </div>
+
+
+        <h2>
+
+            BUILT,
+
+            <br>
+
+            <span>
+
+                NOT BORN.
+
+            </span>
+
+        </h2>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LEGACY
+========================================================= -->
+
+<section
+    class="legacy"
+    id="legacy"
+>
+
+    <div class="legacy-heading reveal">
+
+
+        <small>
+
+            04 / THE LEGACY
+
+        </small>
+
+
+        <h2>
+
+            BUILT
+
+            <span>
+
+                TO WIN.
+
+            </span>
+
+        </h2>
+
+
+    </div>
+
+
+    <div class="stats-grid">
+
+
+        <div class="stat reveal">
+
+            <div class="stat-number">
+                5
+            </div>
+
+            <div class="stat-label">
+
+                BALLON D'OR AWARDS
+
+            </div>
+
+        </div>
+
+
+        <div class="stat reveal">
+
+            <div class="stat-number">
+                5
+            </div>
+
+            <div class="stat-label">
+
+                CHAMPIONS LEAGUE TITLES
+
+            </div>
+
+        </div>
+
+
+        <div class="stat reveal">
+
+            <div class="stat-number">
+                1
+            </div>
+
+            <div class="stat-label">
+
+                EUROPEAN CHAMPIONSHIP
+
+            </div>
+
+        </div>
+
+
+        <div class="stat reveal">
+
+            <div class="stat-number">
+                07
+            </div>
+
+            <div class="stat-label">
+
+                THE ICONIC NUMBER
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CAREER
+========================================================= -->
+
+<section
+    class="career"
+    id="career"
+>
+
+    <div class="career-head reveal">
+
+
+        <h2>
+
+            CAREER
+
+            <br>
+
+            <span>
+
+                CHAPTERS.
+
+            </span>
+
+        </h2>
+
+
+        <p>
+
+            DIFFERENT CITIES.
+            DIFFERENT COLOURS.
+            ONE RELENTLESS STANDARD.
+
+            <br><br>
+
+            A VISUAL JOURNEY THROUGH
+            THE DEFINING CHAPTERS
+            OF AN ICONIC CAREER.
+
+        </p>
+
+
+    </div>
+
+
+    <div class="timeline">
+
+
+        <div class="timeline-row reveal interactive">
+
+
+            <div class="timeline-id">
+
+                01
+
+            </div>
+
+
+            <div class="timeline-name">
+
+                SPORTING CP
+
+            </div>
+
+
+            <div class="timeline-note">
+
+                BEGINNING
+
+            </div>
+
+
+        </div>
+
+
+        <div class="timeline-row reveal interactive">
+
+
+            <div class="timeline-id">
+
+                02
+
+            </div>
+
+
+            <div class="timeline-name">
+
+                MANCHESTER UNITED
+
+            </div>
+
+
+            <div class="timeline-note">
+
+                BREAKTHROUGH
+
+            </div>
+
+
+        </div>
+
+
+        <div class="timeline-row reveal interactive">
+
+
+            <div class="timeline-id">
+
+                03
+
+            </div>
+
+
+            <div class="timeline-name">
+
+                REAL MADRID
+
+            </div>
+
+
+            <div class="timeline-note">
+
+                LEGACY
+
+            </div>
+
+
+        </div>
+
+
+        <div class="timeline-row reveal interactive">
+
+
+            <div class="timeline-id">
+
+                04
+
+            </div>
+
+
+            <div class="timeline-name">
+
+                JUVENTUS
+
+            </div>
+
+
+            <div class="timeline-note">
+
+                CHALLENGE
+
+            </div>
+
+
+        </div>
+
+
+        <div class="timeline-row reveal interactive">
+
+
+            <div class="timeline-id">
+
+                05
+
+            </div>
+
+
+            <div class="timeline-name">
+
+                PORTUGAL
+
+            </div>
+
+
+            <div class="timeline-note">
+
+                COUNTRY
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+
+    <div class="footer-logo">
+
+        CR<span>7</span>.
+
+    </div>
+
+
+    <div class="footer-copy">
+
+        UNOFFICIAL CRISTIANO RONALDO
+        DIGITAL PORTFOLIO CONCEPT.
+
+        <br><br>
+
+        FRONT-END DESIGN EXPERIENCE.
+
+    </div>
+
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+window.addEventListener(
+    "load",
+    ()=>{
+
+        setTimeout(
+            ()=>{
+
+                document
+                    .getElementById("loader")
+                    .classList
+                    .add("hide");
+
+                startSkills();
+
+            },
+            1200
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SKILL COUNTERS
+========================================================= */
+
+function startSkills(){
+
+    document
+        .querySelectorAll(
+            ".track-fill"
+        )
+        .forEach(
+            (fill,index)=>{
+
+                setTimeout(
+                    ()=>{
+
+                        fill.style.width =
+                            fill.dataset.width;
+
+                    },
+                    250 + index*100
+                );
+
+            }
+        );
+
+
+    document
+        .querySelectorAll(
+            ".count"
+        )
+        .forEach(
+            (counter,index)=>{
+
+                const target =
+                    Number(
+                        counter.dataset.target
+                    );
+
+                let value=0;
+
+
+                setTimeout(
+                    ()=>{
+
+                        const timer =
+                            setInterval(
+                                ()=>{
+
+                                    value++;
+
+                                    counter.textContent =
+                                        value;
+
+
+                                    if(
+                                        value>=target
+                                    ){
+
+                                        clearInterval(
+                                            timer
+                                        );
+
+                                    }
+
+                                },
+                                14
+                            );
+
+                    },
+                    200 + index*80
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+const nav =
+    document.getElementById(
+        "nav"
+    );
+
+
+window.addEventListener(
+    "scroll",
+    ()=>{
+
+        nav.classList.toggle(
+            "scrolled",
+            window.scrollY>60
+        );
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+const cursorDot =
+    document.getElementById(
+        "cursorDot"
+    );
+
+
+const cursorRing =
+    document.getElementById(
+        "cursorRing"
+    );
+
+
+let mouseX=0;
+let mouseY=0;
+
+let cursorX=0;
+let cursorY=0;
+
+
+document.addEventListener(
+    "mousemove",
+    event=>{
+
+        mouseX =
+            event.clientX;
+
+
+        mouseY =
+            event.clientY;
+
+
+        cursorDot.style.left =
+            mouseX+"px";
+
+
+        cursorDot.style.top =
+            mouseY+"px";
+
+    }
+);
+
+
+function cursorLoop(){
+
+    cursorX +=
+        (
+            mouseX-
+            cursorX
+        )*.15;
+
+
+    cursorY +=
+        (
+            mouseY-
+            cursorY
+        )*.15;
+
+
+    cursorRing.style.left =
+        cursorX+"px";
+
+
+    cursorRing.style.top =
+        cursorY+"px";
+
+
+    requestAnimationFrame(
+        cursorLoop
+    );
+
+}
+
+
+cursorLoop();
+
+
+/* =========================================================
+   CURSOR HOVER
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".interactive, a, .skill"
+    )
+    .forEach(
+        element=>{
+
+            element.addEventListener(
+                "mouseenter",
+                ()=>{
+
+                    cursorRing
+                        .classList
+                        .add("active");
+
+                }
+            );
+
+
+            element.addEventListener(
+                "mouseleave",
+                ()=>{
+
+                    cursorRing
+                        .classList
+                        .remove("active");
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function clamp(
+    value,
+    min,
+    max
+){
+
+    return Math.min(
+        Math.max(
+            value,
+            min
+        ),
+        max
+    );
+
+}
+
+
+function smooth(t){
+
+    t=
+        clamp(
+            t,
+            0,
+            1
+        );
+
+
+    return (
+        t*t*
+        (3-2*t)
+    );
+
+}
+
+
+function range(
+    value,
+    start,
+    end
+){
+
+    return smooth(
+        (value-start)/
+        (end-start)
+    );
+
+}
+
+
+/* =========================================================
+   HERO ELEMENTS
+========================================================= */
+
+const heroWrap =
+    document.querySelector(
+        ".hero-wrap"
+    );
+
+
+const heroCopy =
+    document.getElementById(
+        "heroCopy"
+    );
+
+
+const mainShell =
+    document.getElementById(
+        "mainShell"
+    );
+
+
+const ghostShell =
+    document.getElementById(
+        "ghostShell"
+    );
+
+
+const skillsWrap =
+    document.getElementById(
+        "skillsWrap"
+    );
+
+
+const proofStrip =
+    document.getElementById(
+        "proofStrip"
+    );
+
+
+const bigSeven =
+    document.getElementById(
+        "bigSeven"
+    );
+
+
+const orbit =
+    document.getElementById(
+        "orbit"
+    );
+
+
+const numberPhase =
+    document.getElementById(
+        "numberPhase"
+    );
+
+
+const numberSeven =
+    document.getElementById(
+        "numberSeven"
+    );
+
+
+const backShell =
+    document.getElementById(
+        "backShell"
+    );
+
+
+const numberCopy =
+    document.getElementById(
+        "numberCopy"
+    );
+
+
+const numberSide =
+    document.getElementById(
+        "numberSide"
+    );
+
+
+const transitionProgress =
+    document.getElementById(
+        "transitionProgress"
+    );
+
+
+const transitionProgressFill =
+    document.getElementById(
+        "transitionProgressFill"
+    );
+
+
+/* =========================================================
+   HERO SCROLL TRANSITION
+========================================================= */
+
+function updateHero(){
+
+    const rect =
+        heroWrap
+            .getBoundingClientRect();
+
+
+    const distance =
+        heroWrap.offsetHeight -
+        window.innerHeight;
+
+
+    const progress =
+        clamp(
+            -rect.top/distance,
+            0,
+            1
+        );
+
+
+    /* =====================================================
+       HOME CONTENT DISAPPEARS
+    ====================================================== */
+
+    const homeFade =
+        range(
+            progress,
+            .28,
+            .52
+        );
+
+
+    heroCopy.style.opacity =
+        1-homeFade;
+
+
+    heroCopy.style.transform =
+        `
+        translateY(-50%)
+        translateX(
+            ${-homeFade*65}px
+        )
+        `;
+
+
+    skillsWrap.style.opacity =
+        1-homeFade;
+
+
+    skillsWrap.style.transform =
+        `
+        translateY(-50%)
+        translateX(
+            ${homeFade*75}px
+        )
+        `;
+
+
+    proofStrip.style.opacity =
+        1-homeFade;
+
+
+    proofStrip.style.transform =
+        `
+        translateY(
+            ${homeFade*35}px
+        )
+        `;
+
+
+    bigSeven.style.opacity =
+        1-homeFade;
+
+
+    orbit.style.opacity =
+        1-homeFade;
+
+
+    /* =====================================================
+       TROPHY IMAGE SHRINKS
+    ====================================================== */
+
+    const oldFade =
+        range(
+            progress,
+            .30,
+            .62
+        );
+
+
+    mainShell.style.opacity =
+        1-oldFade;
+
+
+    mainShell.style.transform =
+        `
+        translate(-50%,-50%)
+
+        translateY(
+            ${oldFade*70}px
+        )
+
+        scale(
+            ${1-oldFade*.42}
+        )
+        `;
+
+
+    ghostShell.style.opacity =
+        .08*
+        (1-oldFade);
+
+
+    /* =====================================================
+       SECOND PHASE APPEARS
+    ====================================================== */
+
+    const reveal =
+        range(
+            progress,
+            .43,
+            .68
+        );
+
+
+    numberPhase.style.opacity =
+        reveal;
+
+
+    if(
+        reveal>.35
+    ){
+
+        numberPhase.style.pointerEvents =
+            "auto";
+
+    }
+    else{
+
+        numberPhase.style.pointerEvents =
+            "none";
+
+    }
+
+
+    /* 07 static entrance */
+
+    numberSeven.style.opacity =
+        reveal;
+
+
+    numberSeven.style.transform =
+        `
+        translate(-50%,-50%)
+
+        scale(
+            ${.95+reveal*.05}
+        )
+        `;
+
+
+    /* IMAGE */
+
+    const imageY =
+        105-
+        reveal*105;
+
+
+    const imageScale =
+        .84+
+        reveal*.16;
+
+
+    backShell.style.opacity =
+        reveal;
+
+
+    backShell.style.transform =
+        `
+        translate(-50%,-50%)
+
+        translateY(
+            ${imageY}px
+        )
+
+        perspective(1700px)
+
+        rotateX(
+            var(--rx)
+        )
+
+        rotateY(
+            var(--ry)
+        )
+
+        scale(
+            ${imageScale}
+        )
+        `;
+
+
+    /* =====================================================
+       COPY APPEARS
+    ====================================================== */
+
+    const copyReveal =
+        range(
+            progress,
+            .56,
+            .75
+        );
+
+
+    numberCopy.style.opacity =
+        copyReveal;
+
+
+    numberCopy.style.transform =
+        `
+        translateY(-50%)
+
+        translateX(
+            ${-35+copyReveal*35}px
+        )
+        `;
+
+
+    numberSide.style.opacity =
+        copyReveal;
+
+
+    numberSide.style.transform =
+        `
+        translateY(-50%)
+
+        translateX(
+            ${25-copyReveal*25}px
+        )
+        `;
+
+
+    /* =====================================================
+       PROGRESS LINE
+    ====================================================== */
+
+    transitionProgress.style.opacity =
+        reveal;
+
+
+    const p2 =
+        clamp(
+            (
+                progress-.43
+            )/.57,
+            0,
+            1
+        );
+
+
+    transitionProgressFill.style.width =
+        (
+            p2*100
+        )+"%";
+
+
+    /* =====================================================
+       LEAVE HERO
+    ====================================================== */
+
+    const leave =
+        range(
+            progress,
+            .90,
+            1
+        );
+
+
+    numberPhase.style.opacity =
+        reveal*
+        (
+            1-
+            leave*.88
+        );
+
+
+    transitionProgress.style.opacity =
+        reveal*
+        (
+            1-
+            leave
+        );
+
+}
+
+
+window.addEventListener(
+    "scroll",
+    updateHero,
+    {
+        passive:true
+    }
+);
+
+
+window.addEventListener(
+    "resize",
+    updateHero
+);
+
+
+updateHero();
+
+
+/* =========================================================
+   FIRST IMAGE PARALLAX
+========================================================= */
+
+const mainImage =
+    document.getElementById(
+        "mainImage"
+    );
+
+
+document.addEventListener(
+    "mousemove",
+    event=>{
+
+        if(
+            window.innerWidth<1000
+        ){
+            return;
+        }
+
+
+        const x =
+            (
+                event.clientX/
+                window.innerWidth
+                -.5
+            )*7;
+
+
+        const y =
+            (
+                event.clientY/
+                window.innerHeight
+                -.5
+            )*5;
+
+
+        mainImage.style.transform =
+            `
+            translate3d(
+                ${x}px,
+                ${y}px,
+                0
+            )
+            `;
+
+    }
+);
+
+
+/* =========================================================
+   BACK IMAGE 3D TILT
+========================================================= */
+
+const heroStage =
+    document.getElementById(
+        "heroStage"
+    );
+
+
+let tiltX=0;
+let tiltY=0;
+
+let targetTiltX=0;
+let targetTiltY=0;
+
+
+heroStage.addEventListener(
+    "mousemove",
+    event=>{
+
+        if(
+            window.innerWidth<900
+        ){
+            return;
+        }
+
+
+        const rect =
+            heroStage
+                .getBoundingClientRect();
+
+
+        const x =
+            (
+                event.clientX-
+                rect.left
+            )/
+            rect.width;
+
+
+        const y =
+            (
+                event.clientY-
+                rect.top
+            )/
+            rect.height;
+
+
+        /* controlled professional 3D */
+
+        targetTiltY =
+            (
+                x-.5
+            )*7;
+
+
+        targetTiltX =
+            (
+                .5-y
+            )*4.5;
+
+    }
+);
+
+
+heroStage.addEventListener(
+    "mouseleave",
+    ()=>{
+
+        targetTiltX=0;
+        targetTiltY=0;
+
+    }
+);
+
+
+function tiltLoop(){
+
+    tiltX +=
+        (
+            targetTiltX-
+            tiltX
+        )*.08;
+
+
+    tiltY +=
+        (
+            targetTiltY-
+            tiltY
+        )*.08;
+
+
+    backShell.style.setProperty(
+        "--rx",
+        tiltX+"deg"
+    );
+
+
+    backShell.style.setProperty(
+        "--ry",
+        tiltY+"deg"
+    );
+
+
+    requestAnimationFrame(
+        tiltLoop
+    );
+
+}
+
+
+tiltLoop();
+
+
+/* =========================================================
+   SECTION REVEALS
+========================================================= */
+
+const reveals =
+    document.querySelectorAll(
+        ".reveal"
+    );
+
+
+const observer =
+    new IntersectionObserver(
+
+        entries=>{
+
+            entries.forEach(
+                entry=>{
+
+                    if(
+                        entry.isIntersecting
+                    ){
+
+                        entry.target
+                            .classList
+                            .add("show");
+
+                    }
+
+                }
+            );
+
+        },
+
+        {
+            threshold:.13
+        }
+
+    );
+
+
+reveals.forEach(
+    item=>{
+
+        observer.observe(
+            item
+        );
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
